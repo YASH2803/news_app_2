@@ -15,11 +15,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        bottomAppBar.setupWithNavController(host_layout.findNavController())
-        bottomNavigationView.background = null
+        bottomNavigationView.setupWithNavController(host_layout.findNavController())
 
-//        main_activity_fab_search.setOnClickListener{
-//            findNavController(R.id.host_layout).navigate(R.id.action_to_searchNewsFragment)
-//        }
+
     }
 }

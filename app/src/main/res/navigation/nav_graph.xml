@@ -5,8 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/newsHeadlinesFragment">
 
-    <action android:id="@+id/action_to_searchNewsFragment"
-        app:destination="@+id/searchNewsFragment" />
 
     <fragment
         android:id="@+id/newsHeadlinesFragment"

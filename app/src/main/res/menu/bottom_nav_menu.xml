@@ -6,7 +6,9 @@
         android:title="Headlines"
         android:icon="@drawable/ic_home" />
 
-    <item android:title=" " />
+    <item android:id="@+id/searchNewsFragment"
+        android:title="Search"
+        android:icon="@drawable/ic_search" />
 
     <item android:id="@+id/savedNewsFragment"
         android:title="Saved"
