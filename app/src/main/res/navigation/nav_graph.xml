@@ -34,13 +34,15 @@
         <action
             android:id="@+id/action_searchNewsFragment_to_detailNewsArticleFragment"
             app:destination="@id/detailNewsArticleFragment" />
-        <action
-            android:id="@+id/action_searchNewsFragment_to_detailNewsArticleFragment2"
-            app:destination="@id/detailNewsArticleFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailNewsArticleFragment"
         android:name="com.example.newsapp.ui.fragments.DetailNewsArticleFragment"
         android:label="DetailNewsArticleFragment"
-        tools:layout="@layout/fragment_detail_news_article"/>
+        tools:layout="@layout/fragment_detail_news_article"
+        >
+        <argument
+            android:name="article"
+            app:argType="com.example.newsapp.models.Article" />
+    </fragment>
 </navigation>
