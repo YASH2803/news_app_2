@@ -13,10 +13,12 @@ class NewsRepository(
     suspend fun searchNews(searchQuery : String, pageNumber: Int) =
         RetrofitInstance.api.searchNews(searchQuery, pageNumber)
 
-    suspend fun insertIntoDb(article: Article) =
+    suspend fun insertIntoDb(article: Article): Long =
         db.getArticleDao().insert(article)
 
     fun getAllArticlesFromDb() =  db.getArticleDao().getAllArticle()
 
     suspend fun deleteArticles(article: Article) = db.getArticleDao().deleteArticles(article)
+
+    suspend fun deleteWithTitle(title: String) = db.getArticleDao().deleteWithTitle(title)
 }
