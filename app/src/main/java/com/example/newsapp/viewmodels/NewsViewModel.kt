@@ -13,10 +13,12 @@ import retrofit2.Response
 class NewsViewModel(private val newsRepository: NewsRepository): ViewModel() {
 
     val newsHeadlines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
-    val headlinesPageNews = 1
+    var headlinesPageNews = 1
+    var breakingNewsResponse: NewsResponse? = null
 
-    val searchedNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
-    val searchPageNews = 1
+    val searchNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
+    var searchNewsPage = 1
+    var searchNewsResponse: NewsResponse? = null
 
     init{
         getNewsHeadlines("in")
@@ -28,25 +30,42 @@ class NewsViewModel(private val newsRepository: NewsRepository): ViewModel() {
         newsHeadlines.postValue(handleBreakingResponses(response))
     }
 
-    fun getSearchedNews(searchText: String) = viewModelScope.launch {
-        searchedNews.postValue(Resource.Loading())
-        val response = newsRepository.searchNews(searchText, searchPageNews)
-        searchedNews.postValue(handleSearchResponses(response))
+    fun searchNews(searchQuery: String) = viewModelScope.launch {
+        searchNews.postValue(Resource.Loading())
+        val response = newsRepository.searchNews(searchQuery, searchNewsPage)
+        searchNews.postValue(handleSearchNewsResponse(response))
     }
 
+
     private fun handleBreakingResponses(response: Response<NewsResponse>): Resource<NewsResponse>{
-        if(response.isSuccessful){
-            response.body()?.let {resultResponse ->
-                return Resource.Success(resultResponse)
+        if(response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                headlinesPageNews++
+                if(breakingNewsResponse == null) {
+                    breakingNewsResponse = resultResponse
+                } else {
+                    val oldArticles = breakingNewsResponse?.articles
+                    val newArticles = resultResponse.articles
+                    oldArticles?.addAll(newArticles)
+                }
+                return Resource.Success(breakingNewsResponse ?: resultResponse)
             }
         }
         return Resource.Error(response.message())
     }
 
-    private fun handleSearchResponses(response: Response<NewsResponse>): Resource<NewsResponse> {
-        if (response.isSuccessful) {
+    private fun handleSearchNewsResponse(response: Response<NewsResponse>) : Resource<NewsResponse> {
+        if(response.isSuccessful) {
             response.body()?.let { resultResponse ->
-                return Resource.Success(resultResponse)
+                searchNewsPage++
+                if(searchNewsResponse == null) {
+                    searchNewsResponse = resultResponse
+                } else {
+                    val oldArticles = searchNewsResponse?.articles
+                    val newArticles = resultResponse.articles
+                    oldArticles?.addAll(newArticles)
+                }
+                return Resource.Success(searchNewsResponse ?: resultResponse)
             }
         }
         return Resource.Error(response.message())

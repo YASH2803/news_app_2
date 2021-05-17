@@ -30,7 +30,7 @@ class DetailNewsArticleFragment: Fragment(R.layout.fragment_detail_news_article)
 
         detailed_news_webView.apply {
             webViewClient = WebViewClient()
-            loadUrl(article.url)
+            article.url?.let { loadUrl(it) }
         }
 
         detailed_news_fab.setOnClickListener {
@@ -41,7 +41,7 @@ class DetailNewsArticleFragment: Fragment(R.layout.fragment_detail_news_article)
                 detailed_news_fab.setImageResource(R.drawable.ic_favorite)
             }else{
                 article.isFav = 0
-                viewModel.deleteWithTitle(article.title)     //This article is of type data class and not database
+                viewModel.deleteWithTitle(article.title!!)     //This article is of type data class and not database
                 Snackbar.make(view, "Article deleted successfully", Snackbar.LENGTH_SHORT).show()
                 detailed_news_fab.setImageResource(R.drawable.ic_favorite_border)
             }

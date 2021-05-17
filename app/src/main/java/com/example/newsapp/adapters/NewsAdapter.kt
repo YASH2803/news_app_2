@@ -22,7 +22,7 @@ class NewsAdapter(private val context: Context): ListAdapter<Article, NewsAdapte
         val publishedAt = itemView.findViewById<TextView>(R.id.tv_published_at)
         fun bind(articleData: Article){
             Glide.with(context).load(articleData.urlToImage).into(image)   //placeholder and error
-            source.text = articleData.source.name
+            source.text = articleData.source?.name
             title.text = articleData.title
             description.text = articleData.description
             publishedAt.text = articleData.publishedAt
